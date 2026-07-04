@@ -1,0 +1,57 @@
+schema_version = 1
+
+[unity]
+search_roots = [
+  "C:\\Program Files\\Unity\\Hub\\Editor",
+  "%LOCALAPPDATA%\\Unity\\Hub\\Editor",
+  "/Applications/Unity/Hub/Editor",
+  "$HOME/Unity/Hub/Editor"
+]
+prefer_project_version = true
+require_exact_project_version = true
+fallback_policy = "none"
+editor_executable = ""
+windows_executable_relative_path = "Editor\\Unity.exe"
+macos_executable_relative_path = "Unity.app/Contents/MacOS/Unity"
+linux_executable_relative_path = "Unity"
+
+[tests]
+default_platform = "EditMode"
+default_filter = ""
+default_category = ""
+
+[paths]
+artifact_dir = "{temp}/unity-test-runner/{project}-{project_hash}"
+results_file_name = "UnityTestResults-{platform}.xml"
+log_file_name = "UnityTest-{platform}.log"
+log_tail_file_name = "UnityTestTail-{platform}.txt"
+
+[runner]
+timeout_secs = 900
+keep_artifacts = false
+cleanup_success = true
+cleanup_failed_tests = false
+cleanup_infra_errors = false
+
+[output]
+format = "compact-json"
+include_passed_tests = false
+include_log_tail_on_success = false
+include_log_tail_on_test_failure = false
+include_log_tail_on_infra_error = true
+# Tail is saved as an artifact file and JSON contains only diagnostics[].tailPath.
+log_tail_lines = 80
+
+[diagnostics]
+max_failures = 10
+max_compile_errors = 20
+max_exception_blocks = 5
+stack_trace_lines = 12
+context_lines = 4
+
+# Additional Unity CLI options exposed by runner command-line flags:
+# --test-names, --assembly/--assembly-name, --assembly-type,
+# --requires-play-mode, --run-synchronously, --ordered-test-list,
+# --test-settings, --player-heartbeat-timeout, --build-player-path,
+# --build-target, --no-graphics, --accept-apiupdate, --forget-project-path,
+# --unity-arg.

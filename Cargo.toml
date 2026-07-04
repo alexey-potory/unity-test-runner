@@ -1,0 +1,64 @@
+[package]
+name = "unity-test-runner"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.74"
+description = "Cross-platform Unity Test Framework runner with compact JSON diagnostics"
+license = "MIT"
+repository = "https://github.com/alexey-potory/unity-test-runner"
+
+[dependencies]
+anyhow = { version = "1", default-features = false, features = ["std"] }
+
+clap = { version = "4", default-features = false, features = [
+    "std",
+    "derive",
+    "help",
+    "usage",
+    "error-context",
+] }
+
+regex = { version = "1", default-features = false, features = [
+    "std",
+    "perf",
+    "unicode-perl",
+    "unicode-case",
+] }
+
+roxmltree = "0.21.1"
+
+serde = { version = "1", default-features = false, features = [
+    "std",
+    "derive",
+] }
+
+serde_json = { version = "1", default-features = false, features = [
+    "std",
+] }
+
+thiserror = { version = "2.0.18", default-features = false }
+
+toml = { version = "1", default-features = false, features = [
+    "serde",
+    "parse",
+    "display",
+] }
+
+wait-timeout = "0.2"
+
+[dev-dependencies]
+tempfile = "3"
+
+[profile.release]
+opt-level = "z"
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = "symbols"
+debug = false
+incremental = false
+overflow-checks = false
+
+[profile.release.build-override]
+opt-level = "z"
+codegen-units = 1
