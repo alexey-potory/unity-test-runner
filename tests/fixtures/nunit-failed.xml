@@ -1,0 +1,11 @@
+<test-run id="2" total="1" passed="0" failed="1" skipped="0" inconclusive="0" duration="0.91">
+  <test-suite type="Assembly" name="Tests.dll" result="Failed">
+    <test-case id="1" name="ShouldCreateBar" fullname="FooTests.ShouldCreateBar" result="Failed" duration="0.12">
+      <failure>
+        <message><![CDATA[Expected: 10 But was: 9]]></message>
+        <stack-trace><![CDATA[  at FooTests.ShouldCreateBar () in Assets/Tests/FooTests.cs:line 42]]></stack-trace>
+      </failure>
+      <categories><category name="Smoke" /></categories>
+    </test-case>
+  </test-suite>
+</test-run>

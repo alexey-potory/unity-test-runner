@@ -1,0 +1,3 @@
+<test-run total="1" passed="1" failed="0" skipped="0" inconclusive="0" duration="0.01">
+  <test-case name="FooTests.Passes" fullname="FooTests.Passes" result="Passed" />
+</test-run>

@@ -3,4 +3,6 @@
 /.vscode
 *.log
 *.xml
+!tests/fixtures/**/*.xml
+!tests/fixtures/**/*.log
 .DS_Store

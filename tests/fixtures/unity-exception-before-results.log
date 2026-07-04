@@ -1,0 +1,4 @@
+Starting Unity batchmode
+Unhandled exception: System.Exception: Boom before results
+  at UnityTestBootstrap.Run () in Assets/Editor/UnityTestBootstrap.cs:line 10
+Unity quit unexpectedly
