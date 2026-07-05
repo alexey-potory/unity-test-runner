@@ -25,7 +25,9 @@ jobs:
           - os: macos-latest
             asset: unity-test-runner-macos-aarch64
             binary: target/release/unity-test-runner
+
     runs-on: ${{ matrix.os }}
+
     steps:
       - uses: actions/checkout@v6
 
@@ -39,6 +41,7 @@ jobs:
           }
 
       - run: cargo test --locked --all-targets
+
       - run: cargo build --release --locked
 
       - name: Package binary and checksum
@@ -62,6 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
     steps:
       - uses: actions/download-artifact@v8
         with:
@@ -71,6 +75,7 @@ jobs:
       - name: Create or update GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         run: |
           if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
             gh release upload "$GITHUB_REF_NAME" dist/* --clobber
