@@ -474,13 +474,16 @@ mod tests {
     fn resolves_exact_editor_from_fake_hub() {
         let dir = tempdir().unwrap();
         let hub = dir.path().join("Hub").join("Editor");
-        let exe = hub.join("2022.3.40f1").join("Editor").join("Unity.exe");
-        fs::create_dir_all(exe.parent().unwrap()).unwrap();
-        fs::write(&exe, b"").unwrap();
 
         let mut cfg = Config::default();
         cfg.unity.search_roots = vec![hub.to_string_lossy().to_string()];
-        cfg.unity.windows_executable_relative_path = "Editor/Unity.exe".to_string();
+
+        let exe = join_relative_path(
+            &hub.join("2022.3.40f1"),
+            cfg.unity.executable_relative_path(),
+        );
+        fs::create_dir_all(exe.parent().unwrap()).unwrap();
+        fs::write(&exe, b"").unwrap();
 
         let project = ProjectInfo {
             root: dir.path().join("Project"),

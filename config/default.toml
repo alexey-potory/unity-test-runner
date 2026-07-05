@@ -13,7 +13,7 @@ fallback_policy = "none"
 editor_executable = ""
 windows_executable_relative_path = "Editor\\Unity.exe"
 macos_executable_relative_path = "Unity.app/Contents/MacOS/Unity"
-linux_executable_relative_path = "Unity"
+linux_executable_relative_path = "Editor/Unity"
 
 [tests]
 default_platform = "EditMode"

@@ -111,7 +111,7 @@ impl Default for Config {
                 editor_executable: String::new(),
                 windows_executable_relative_path: r"Editor\Unity.exe".to_string(),
                 macos_executable_relative_path: "Unity.app/Contents/MacOS/Unity".to_string(),
-                linux_executable_relative_path: "Unity".to_string(),
+                linux_executable_relative_path: "Editor/Unity".to_string(),
             },
             tests: TestsConfig {
                 default_platform: TestPlatform::EditMode,
@@ -498,7 +498,7 @@ mod tests {
             cfg.unity.executable_relative_path_for("macos"),
             "Unity.app/Contents/MacOS/Unity"
         );
-        assert_eq!(cfg.unity.executable_relative_path_for("linux"), "Unity");
+        assert_eq!(cfg.unity.executable_relative_path_for("linux"), "Editor/Unity");
     }
 
     #[test]
