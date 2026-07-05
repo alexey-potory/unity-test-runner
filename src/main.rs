@@ -3,6 +3,7 @@ mod cli;
 mod config;
 mod error;
 mod log_parse;
+mod mcp;
 mod nunit;
 mod output;
 mod path_util;
@@ -42,12 +43,13 @@ fn dispatch(cli: Cli) -> Result<i32, RunnerError> {
         Commands::CompileCheck(args) => compile_check_command(args),
         Commands::Doctor(args) => doctor_command(args),
         Commands::PrintConfig(args) => print_config_command(args),
+        Commands::Mcp => mcp::serve_stdio().map(|()| 0),
         Commands::Version => version_command(),
     }
 }
 
 fn run_command(args: RunArgs) -> Result<i32, RunnerError> {
-    let fallback_format = args.common.format.unwrap_or(OutputFormat::CompactJson);
+    let fallback_format = args.common.format.unwrap_or(OutputFormat::MinimalJson);
     let progress = match ProgressLogger::from_common_args(&args.common) {
         Ok(v) => v,
         Err(err) => return emit_error_json(err, fallback_format, args.platform.unwrap_or_default()),
@@ -105,7 +107,7 @@ fn run_command(args: RunArgs) -> Result<i32, RunnerError> {
 
 
 fn compile_check_command(args: CompileCheckArgs) -> Result<i32, RunnerError> {
-    let fallback_format = args.common.format.unwrap_or(OutputFormat::CompactJson);
+    let fallback_format = args.common.format.unwrap_or(OutputFormat::MinimalJson);
     let progress = match ProgressLogger::from_common_args(&args.common) {
         Ok(v) => v,
         Err(err) => return emit_compile_check_error_json(err, fallback_format),
@@ -454,7 +456,7 @@ fn aggregate_status(runs: &[RunOutput]) -> Status {
 }
 
 fn doctor_command(args: CommonArgs) -> Result<i32, RunnerError> {
-    let fallback_format = args.format.unwrap_or(OutputFormat::CompactJson);
+    let fallback_format = args.format.unwrap_or(OutputFormat::MinimalJson);
     let progress = match ProgressLogger::from_common_args(&args) {
         Ok(v) => v,
         Err(err) => return emit_error_json(err, fallback_format, TestPlatform::EditMode),

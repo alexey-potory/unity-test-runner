@@ -34,7 +34,8 @@ cleanup_failed_tests = false
 cleanup_infra_errors = false
 
 [output]
-format = "compact-json"
+# Supported: minimal, minimal-json, compact-json, pretty-json.
+format = "minimal-json"
 include_passed_tests = false
 include_log_tail_on_success = false
 include_log_tail_on_test_failure = false

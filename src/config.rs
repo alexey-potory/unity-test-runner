@@ -132,7 +132,7 @@ impl Default for Config {
                 cleanup_infra_errors: false,
             },
             output: OutputConfig {
-                format: OutputFormat::CompactJson,
+                format: OutputFormat::MinimalJson,
                 include_passed_tests: false,
                 include_log_tail_on_success: false,
                 include_log_tail_on_test_failure: false,

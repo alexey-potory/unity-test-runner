@@ -3,6 +3,7 @@ pub mod cli;
 pub mod config;
 pub mod error;
 pub mod log_parse;
+pub mod mcp;
 pub mod nunit;
 pub mod output;
 pub mod path_util;

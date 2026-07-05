@@ -22,6 +22,8 @@ pub enum Commands {
     Doctor(CommonArgs),
     /// Print the resolved config after merging defaults/project/CLI.
     PrintConfig(CommonArgs),
+    /// Run a local MCP server over stdio exposing Unity runner tools.
+    Mcp,
     /// Print runner version and JSON schema version.
     Version,
 }
@@ -242,16 +244,18 @@ impl std::str::FromStr for TestPlatform {
 #[serde(rename_all = "kebab-case")]
 pub enum OutputFormat {
     /// Print only `ok` on success; print compact JSON on failure.
-    #[serde(alias = "minimal-json")]
-    #[value(name = "minimal", alias = "minimal-json")]
+    #[value(name = "minimal")]
     Minimal,
+    /// Print `{"ok":true}` on success; print compact JSON on failure.
+    #[value(name = "minimal-json")]
+    MinimalJson,
     CompactJson,
     PrettyJson,
 }
 
 impl Default for OutputFormat {
     fn default() -> Self {
-        Self::CompactJson
+        Self::MinimalJson
     }
 }
 
@@ -259,6 +263,7 @@ impl fmt::Display for OutputFormat {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             OutputFormat::Minimal => f.write_str("minimal"),
+            OutputFormat::MinimalJson => f.write_str("minimal-json"),
             OutputFormat::CompactJson => f.write_str("compact-json"),
             OutputFormat::PrettyJson => f.write_str("pretty-json"),
         }
@@ -270,7 +275,8 @@ impl std::str::FromStr for OutputFormat {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s.to_ascii_lowercase().as_str() {
-            "minimal" | "minimal-json" => Ok(Self::Minimal),
+            "minimal" => Ok(Self::Minimal),
+            "minimal-json" => Ok(Self::MinimalJson),
             "compact-json" => Ok(Self::CompactJson),
             "pretty-json" => Ok(Self::PrettyJson),
             _ => Err(format!("unsupported output format: {s}")),

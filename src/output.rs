@@ -193,16 +193,21 @@ impl Status {
 
 pub fn serialize_output<T: Serialize>(value: &T, format: OutputFormat) -> Result<String, serde_json::Error> {
     match format {
-        OutputFormat::Minimal => serialize_minimal_output(value),
+        OutputFormat::Minimal => serialize_minimal_output(value, false),
+        OutputFormat::MinimalJson => serialize_minimal_output(value, true),
         OutputFormat::CompactJson => serde_json::to_string(value),
         OutputFormat::PrettyJson => serde_json::to_string_pretty(value),
     }
 }
 
-fn serialize_minimal_output<T: Serialize>(value: &T) -> Result<String, serde_json::Error> {
+fn serialize_minimal_output<T: Serialize>(value: &T, json_success: bool) -> Result<String, serde_json::Error> {
     let json = serde_json::to_value(value)?;
     if json.get("ok").and_then(serde_json::Value::as_bool) == Some(true) {
-        Ok("ok".to_string())
+        if json_success {
+            Ok(r#"{"ok":true}"#.to_string())
+        } else {
+            Ok("ok".to_string())
+        }
     } else {
         serde_json::to_string(value)
     }
@@ -241,6 +246,19 @@ mod tests {
     }
 
     #[test]
+    fn minimal_json_output_is_small_json_on_success() {
+        let output = TestOutput {
+            ok: true,
+            status: "passed",
+        };
+
+        assert_eq!(
+            serialize_output(&output, OutputFormat::MinimalJson).unwrap(),
+            r#"{"ok":true}"#
+        );
+    }
+
+    #[test]
     fn minimal_output_falls_back_to_compact_json_on_failure() {
         let output = TestOutput {
             ok: false,
@@ -249,6 +267,19 @@ mod tests {
 
         assert_eq!(
             serialize_output(&output, OutputFormat::Minimal).unwrap(),
+            r#"{"ok":false,"status":"tests_failed"}"#
+        );
+    }
+
+    #[test]
+    fn minimal_json_output_falls_back_to_compact_json_on_failure() {
+        let output = TestOutput {
+            ok: false,
+            status: "tests_failed",
+        };
+
+        assert_eq!(
+            serialize_output(&output, OutputFormat::MinimalJson).unwrap(),
             r#"{"ok":false,"status":"tests_failed"}"#
         );
     }
