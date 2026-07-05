@@ -1,6 +1,6 @@
 [package]
 name = "unity-test-runner"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 rust-version = "1.74"
 description = "Cross-platform Unity Test Framework runner with compact JSON diagnostics"
